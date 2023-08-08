@@ -1,11 +1,18 @@
 <script setup>
 import { computed } from "vue";
-import Logo from "../../public/img/logo.svg";
 import { useRoute, RouterLink } from "vue-router";
+import { useBebidasStore } from "../stores/bebidas";
+import Logo from "../../public/img/logo.svg";
 import Formulario from "./Formulario.vue";
+
+const store = useBebidasStore();
 
 const route = useRoute();
 const paginaInicio = computed(() => route.name === "inicio");
+
+const handleSubmit = () => {
+  store.obtenerRecetas();
+};
 </script>
 
 <template>
@@ -20,22 +27,28 @@ const paginaInicio = computed(() => route.name === "inicio");
         <nav class="flex gap-4">
           <RouterLink
             class="text-white uppercase font-bold"
-            active-class="text-orange-500"
             :to="{ name: 'inicio' }"
+            active-class="text-orange-500"
           >
             Inicio
           </RouterLink>
           <RouterLink
             class="text-white uppercase font-bold"
-            active-class="text-orange-500"
             :to="{ name: 'favoritos' }"
+            active-class="text-orange-500"
           >
             Favoritos
           </RouterLink>
         </nav>
       </div>
 
-      <Formulario v-if="paginaInicio" />
+      <Formulario
+        v-if="paginaInicio"
+        :categorias="store.categorias"
+        v-model:nombre="store.busqueda.nombre"
+        v-model:categoria="store.busqueda.categoria"
+        @handle-submit="handleSubmit"
+      />
     </div>
   </header>
 </template>
