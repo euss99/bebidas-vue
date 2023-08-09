@@ -5,13 +5,13 @@ import { useBebidasStore } from "../stores/bebidas";
 import Logo from "../../public/img/logo.svg";
 import Formulario from "./Formulario.vue";
 
-const store = useBebidasStore();
+const bebidas = useBebidasStore();
 
 const route = useRoute();
 const paginaInicio = computed(() => route.name === "inicio");
 
 const handleSubmit = () => {
-  store.obtenerRecetas();
+  bebidas.obtenerRecetas();
 };
 </script>
 
@@ -24,16 +24,16 @@ const handleSubmit = () => {
             <img class="w-32" :src="Logo" alt="Logotipo" />
           </RouterLink>
         </div>
-        <nav class="flex gap-4">
+        <nav class="flex gap-4 text-white">
           <RouterLink
-            class="text-white uppercase font-bold"
+            class="uppercase font-bold"
             :to="{ name: 'inicio' }"
             active-class="text-orange-500"
           >
             Inicio
           </RouterLink>
           <RouterLink
-            class="text-white uppercase font-bold"
+            class="uppercase font-bold"
             :to="{ name: 'favoritos' }"
             active-class="text-orange-500"
           >
@@ -44,9 +44,9 @@ const handleSubmit = () => {
 
       <Formulario
         v-if="paginaInicio"
-        :categorias="store.categorias"
-        v-model:nombre="store.busqueda.nombre"
-        v-model:categoria="store.busqueda.categoria"
+        :categorias="bebidas.categorias"
+        v-model:nombre="bebidas.busqueda.nombre"
+        v-model:categoria="bebidas.busqueda.categoria"
         @handle-submit="handleSubmit"
       />
     </div>
